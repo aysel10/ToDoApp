@@ -10,11 +10,14 @@ import UIKit
 
 class ViewController: UITableViewController {
     
+    let defaults = UserDefaults.standard
     var itemArray = ["Write code", "Learn Swift", "Work on GEZ"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,6 +61,8 @@ class ViewController: UITableViewController {
             //action after click "ADD ITEM"
             
             self.itemArray.append(textField.text ?? "New Item")
+            
+            self.defaults.set(self.itemArray,forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         
